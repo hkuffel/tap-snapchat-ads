@@ -102,7 +102,7 @@ STREAMS = {
                         'path': 'adaccounts/{parent_id}/stats',
                         'data_key_array': 'timeseries_stats',
                         'data_key_record': 'timeseries_stat',
-                        'date_window_size': 30,
+                        'date_window_size': 1,
                         'paging': False,
                         'parent': 'ad_account',
                         'params': {
@@ -236,7 +236,7 @@ STREAMS = {
                                 'path': 'campaigns/{parent_id}/stats',
                                 'data_key_array': 'timeseries_stats',
                                 'data_key_record': 'timeseries_stat',
-                                'date_window_size': 30,
+                                'date_window_size': 1,
                                 'paging': False,
                                 'parent': 'campaign',
                                 'params': {
@@ -298,7 +298,7 @@ STREAMS = {
                                 'path': 'adsquads/{parent_id}/stats',
                                 'data_key_array': 'timeseries_stats',
                                 'data_key_record': 'timeseries_stat',
-                                'date_window_size': 30,
+                                'date_window_size': 1,
                                 'paging': False,
                                 'parent': 'ad_squad',
                                 'params': {
@@ -360,7 +360,7 @@ STREAMS = {
                                 'path': 'ads/{parent_id}/stats',
                                 'data_key_array': 'timeseries_stats',
                                 'data_key_record': 'timeseries_stat',
-                                'date_window_size': 30,
+                                'date_window_size': 1,
                                 'paging': False,
                                 'parent': 'ad',
                                 'params': {
