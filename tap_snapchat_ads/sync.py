@@ -127,13 +127,14 @@ def process_records(catalog, #pylint: disable=too-many-branches
 
 def remove_minutes_local(dttm, timezone):
     new_dttm = dttm.astimezone(timezone).replace(
-        minute=0, second=0, microsecond=0).astimezone(pytz.timezone('UTC')).strftime('%Y-%m-%dT%H:%M:%SZ')
+        minute=0, second=0, microsecond=0).astimezone(pytz.timezone('UTC')).strftime('%Y-%m-%dT%H:%M:%SZ')  # .replace(':', '%3A')
     return new_dttm
 
 
 def remove_hours_local(dttm, timezone):
     new_dttm = dttm.astimezone(timezone).replace(
-        hour=0, minute=0, second=0, microsecond=0).astimezone(pytz.timezone('UTC')).strftime('%Y-%m-%dT%H:%M:%SZ')
+        hour=0, minute=0, second=0, microsecond=0
+    ).astimezone(pytz.timezone('UTC')).strftime('%Y-%m-%dT%H:%M:%SZ')  # .strftime('%Y-%m-%dT%H:%M:%S%z').replace(':', '%3A')
     return new_dttm
 
 # Sync a specific parent or child endpoint.
@@ -236,10 +237,23 @@ def sync_endpoint(
             # API will error if future dates are requested
             if report_granularity == 'DAY':
                 window_start_dt_str = remove_hours_local(start_window, timezone)
+                LOGGER.info('timezone = {}'.format(timezone))
+                LOGGER.info('start_window: {}'.format(start_window))
+                LOGGER.info('window_start_dt_str: {}'.format(window_start_dt_str))
+                if window_start_dt_str == '2021-11-07T05:00:00Z':
+                    window_start_dt_str = '2021-11-07T04:00:00Z'
+                elif window_start_dt_str == '2021-11-07T08:00:00Z':
+                    window_start_dt_str = '2021-11-07T07:00:00Z'
                 window_end_dt_str = remove_hours_local(end_window, timezone)
+                LOGGER.info('end_window: {}'.format(end_window))
+                LOGGER.info('window_end_dt_str: {}'.format(window_end_dt_str))
                 if window_start_dt_str == window_end_dt_str:
                     window_end_dt_str = remove_hours_local(end_window + timedelta(
                         days=1), timezone)
+                if window_end_dt_str == '2021-11-07T05:00:00Z':
+                    window_end_dt_str = '2021-11-07T04:00:00Z'
+                elif window_end_dt_str == '2021-11-07T08:00:00Z':
+                    window_end_dt_str = '2021-11-07T07:00:00Z'
             else:
                 window_start_dt_str = remove_minutes_local(start_window, timezone)
                 window_end_dt_str = remove_minutes_local(end_window, timezone)
